@@ -35,7 +35,11 @@ long_description = (
 entry_point = 'collective.recipe.jenkinsjob:Recipe'
 entry_points = {"zc.buildout": ["default = %s" % entry_point]}
 
-tests_require = ['zope.testing', 'zc.buildout']
+tests_require = [
+  'zope.testing',
+  'zc.buildout',
+  'mocker'
+]
 
 setup(name='collective.recipe.jenkinsjob',
       version=version,
@@ -51,16 +55,19 @@ setup(name='collective.recipe.jenkinsjob',
       keywords='',
       author='',
       author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      url='https://github.com/tisto/collective.recipe.jenkinsjob',
       license='gpl',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective', 'collective.recipe'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=['setuptools',
-                        'zc.buildout'
-                        # -*- Extra requirements: -*-
-                        ],
+      install_requires=[
+        'setuptools',
+        'zc.buildout',
+        'genshi>=0.6',
+        'zc.recipe.egg',
+        'collective.recipe.template',
+      ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
       test_suite='collective.recipe.jenkinsjob.tests.test_docs.test_suite',
