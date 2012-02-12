@@ -19,9 +19,9 @@ class Recipe(object):
             self.options['recipe'],
             options)
 
-        if 'host' not in self.options:
+        if 'hostname' not in self.options:
             raise UserError(
-                'Please provide a "host" in your jenkins section "%s"' %
+                'Please provide a "hostname" in your jenkins section "%s"' %
                 self.options['recipe'])
         if 'jobname' not in self.options:
             raise UserError(
@@ -90,7 +90,7 @@ def create_jenkins_job(options):
     :type options: dict
 
     """
-    host = "http://%(host)s:%(port)s/createItem?name=%(jobname)s" % options
+    host = "http://%(hostname)s:%(port)s/createItem?name=%(jobname)s" % options
     headers = {
         "Content-Type": "application/xml; charset=utf-8",
     }
