@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Recipe jenkinsjob"""
+"""Recipe Jenkinsjob"""
 import os
-import sys
-import urllib2
 import jenkins
 
 import zc.recipe.egg
 from zc.buildout import UserError
-from collective.recipe.template.genshitemplate import Recipe as GenshiRecipe
 
 
 class Recipe(object):
-    """zc.buildout recipe"""
+    """Recipe to configure Jenkins CI jobs.
+    """
 
     def __init__(self, buildout, name, options):
         self.buildout, self.name, self.options = buildout, name, options
@@ -84,9 +82,11 @@ class Recipe(object):
         )
 
     def render_jenkins_config(self):
-        """render our jenkins template"""
-        g = GenshiRecipe(self.buildout, self.name, self.options)
-        g.install()
+        """Render the Jenkins job configuration.
+        """
+        #g = GenshiRecipe(self.buildout, self.name, self.options)
+        #g.install()
+        pass
 
 
 def create_jenkins_job(options):
