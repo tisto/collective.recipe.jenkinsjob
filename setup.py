@@ -64,6 +64,7 @@ setup(name='collective.recipe.jenkinsjob',
       install_requires=[
         'setuptools',
         'zc.buildout',
+        'python-jenkins',
         'genshi>=0.6',
         'zc.recipe.egg',
         'collective.recipe.template',

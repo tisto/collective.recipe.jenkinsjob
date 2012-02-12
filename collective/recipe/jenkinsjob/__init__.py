@@ -3,6 +3,7 @@
 import os
 import sys
 import urllib2
+import jenkins
 
 import zc.recipe.egg
 from zc.buildout import UserError
@@ -68,9 +69,14 @@ class Recipe(object):
         self.install()
 
     def install_scripts(self):
-        # generate script create_jenkins_job
+        """Install a jenkins-job script in the bin directory.
+        """
         zc.buildout.easy_install.scripts(
-            [(self.name, 'collective.recipe.jenkinsjob', 'create_jenkins_job')],
+            [(
+                self.name,
+                'collective.recipe.jenkinsjob',
+                'create_jenkins_job'
+            )],
             self.egg.working_set()[1],
             self.buildout[self.buildout['buildout']['python']]['executable'],
             self.buildout['buildout']['bin-directory'],
@@ -84,34 +90,28 @@ class Recipe(object):
 
 
 def create_jenkins_job(options):
-    """Makes HTTP POST request to jenkins to add new job.
-
-    :param options: Configuration to jenkins instance
-    :type options: dict
-
+    """Script that pushes a job to the Jenkins CI server.
     """
-    host = "http://%(hostname)s:%(port)s/createItem?name=%(jobname)s" % options
-    headers = {
-        "Content-Type": "application/xml; charset=utf-8",
-    }
-    opener = urllib2.build_opener()
-    if options.get('username', None):
-        auth_handler = urllib2.HTTPBasicAuthHandler()
-        auth_handler.add_password(
-            realm='Jenkins',
-            uri=host,
-            user=options['username'],
-            passwd=options['password'])
-        opener.add_handler(auth_handler)
+    # Variables
+    jenkins_url = "http://jenkins.timostollenwerk.net/jenkins"
+    jenkins_username = "timo"
+    jenkins_password = ""
+    jenkins_jobname = "plone.app.discussion"
+    jenkins_config = open("jenkins.xml").read()
 
-    # upload jenkins config
-    params = open(options['output']).read()
-    try:
-        print "Creating new job at %s" % host
-        opener.open(urllib2.Request(host, params, headers))
-    except urllib2.HTTPError as e:
-        print e
-        print "\t(does the job maybe already exists?)"
-        sys.exit(2)
+    # Connect to Jenkins CI server
+    jenkins_server = jenkins.Jenkins(
+        jenkins_url,
+        jenkins_username,
+        jenkins_password)
+
+    # Create Jenkins job
+    if jenkins_server.job_exists(jenkins_jobname):
+        print("Reconfig Job %s" % jenkins_jobname)
+        try:
+            jenkins_server.reconfig_job(jenkins_jobname, jenkins_config)
+        except jenkins.JenkinsException, e:
+            print e
     else:
-        print "Done."
+        print("Create Job %s" % jenkins_jobname)
+        jenkins_server.create_job(jenkins_jobname, jenkins_config)
