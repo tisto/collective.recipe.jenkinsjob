@@ -18,15 +18,16 @@ class Recipe(object):
             self.options['recipe'],
             options)
 
-        if 'hostname' not in self.options:
-            raise UserError(
-                'Please provide a "hostname" in your jenkins section "%s"' %
-                self.options['recipe'])
-        if 'jobname' not in self.options:
-            raise UserError(
-                'Please provide a  "jobname" in your jenkins section "%s"' %
-                self.options['recipe'])
+        # Check required options
+        required_options = ['hostname', 'jobname', 'username', 'password']
+        for required_option in required_options:
+            if required_option not in self.options:
+                raise UserError(
+                    'Please provide a "%s" in your jenkins section "%s"' %
+                    required_option,
+                    self.options['recipe'])
 
+        # Set default options
         self.options.setdefault('port', '80')
         self.options.setdefault(
             'template',
@@ -36,19 +37,19 @@ class Recipe(object):
         self.options.setdefault('username', '')
         self.options.setdefault('password', '')
 
-        # figure out default output file
+        # Figure out default output file
         plone_jenkins = os.path.join(
             self.buildout['buildout']['parts-directory'], __name__)
         if not os.path.exists(plone_jenkins):
             os.makedirs(plone_jenkins)
 
-        # setup input/output file
+        # Setup input/output file
         self.options['input'] = self.options['template']
         self.options['output'] = os.path.join(
             plone_jenkins,
             self.options['config_name'])
 
-        # what files are tracked by this recipe
+        # What files are tracked by this recipe
         self.files = [plone_jenkins,
             os.path.join(
                 self.buildout['buildout']['bin-directory'], self.name)]
@@ -93,10 +94,10 @@ def create_jenkins_job(options):
     """Script that pushes a job to the Jenkins CI server.
     """
     # Variables
-    jenkins_url = "http://jenkins.timostollenwerk.net/jenkins"
-    jenkins_username = "timo"
-    jenkins_password = ""
-    jenkins_jobname = "plone.app.discussion"
+    jenkins_url = options['hostname']
+    jenkins_username = options['username']
+    jenkins_password = options['password']
+    jenkins_jobname = options['jobname']
     jenkins_config = open("jenkins.xml").read()
 
     # Connect to Jenkins CI server
