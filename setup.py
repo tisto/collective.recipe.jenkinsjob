@@ -33,7 +33,10 @@ long_description = (
     '********\n')
 
 entry_point = 'collective.recipe.jenkinsjob:Recipe'
-entry_points = {"zc.buildout": ["default = %s" % entry_point]}
+entry_points = {
+    "zc.buildout": ["default = %s" % entry_point],
+    "console_scripts": ['build = collective.recipe.jenkinsjob:build_jenkins_job']
+}
 
 tests_require = [
   'zope.testing',
