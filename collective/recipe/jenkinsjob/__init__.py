@@ -122,7 +122,7 @@ def create_jenkins_job(options):
         jenkins_server.create_job(jenkins_jobname, jenkins_config)
 
 
-def build_jenkins_jobs(options):
+def build_jenkins_job(options):
     # Connect to Jenkins CI server
     jenkins_server = jenkins.Jenkins(
         options['hostname'],
