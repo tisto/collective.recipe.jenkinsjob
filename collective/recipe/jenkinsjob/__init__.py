@@ -146,8 +146,8 @@ def connect(options):
 def write_configuration(config, filename="jenkins.xml"):
     # Backup existing config if it exists
     if os.path.exists(filename):
-        print("Create Jenkins job backup at %s.sic" % filename)
-        copyfile(filename, "%s.sic" % filename)
+        print("Create Jenkins job backup at %s.bak" % filename)
+        copyfile(filename, "%s.bak" % filename)
     # Write config to file
     print("Write job %s" % filename)
     fileObj = open(filename, "w")
