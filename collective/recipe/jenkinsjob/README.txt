@@ -47,5 +47,3 @@ Running the buildout gives us::
     True
     >>> "sample-buildout/bin/jenkins-job" in buildout_output_lower
     True
-    >>> "sample-buildout/bin/jenkins-job-build" in buildout_output_lower
-    True
