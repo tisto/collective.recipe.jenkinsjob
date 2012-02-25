@@ -23,9 +23,9 @@ class Recipe(object):
         for required_option in required_options:
             if required_option not in self.options:
                 raise UserError(
-                    'Please provide a "%s" in your jenkins section "%s"' %
+                    'Please provide a "%s" in your jenkins section "%s"' % (
                     required_option,
-                    self.options['recipe'])
+                    self.options['recipe']))
 
         # Set default options
         self.options.setdefault('port', '80')
@@ -108,11 +108,32 @@ def create_jenkins_job(options):
 
     # Create Jenkins job
     if jenkins_server.job_exists(jenkins_jobname):
-        print("Reconfig Job %s" % jenkins_jobname)
+        print(
+            "Reconfig Job %s" %
+            jenkins_server.get_job_info(jenkins_jobname)['url'])
         try:
             jenkins_server.reconfig_job(jenkins_jobname, jenkins_config)
         except jenkins.JenkinsException, e:
             print e
     else:
-        print("Create Job %s" % jenkins_jobname)
+        print(
+            "Create Job %s" %
+            jenkins_server.get_job_info(jenkins_jobname)['url'])
         jenkins_server.create_job(jenkins_jobname, jenkins_config)
+
+
+def build_jenkins_jobs(options):
+    # Connect to Jenkins CI server
+    jenkins_server = jenkins.Jenkins(
+        options['hostname'],
+        options['username'],
+        options['password'])
+    jenkins_jobname = options['jobname']
+    if jenkins_server.job_exists(jenkins_jobname):
+        print(
+            "Build Job %s" %
+            jenkins_server.get_job_info(jenkins_jobname)['url'])
+        try:
+            jenkins_server.build_job(jenkins_jobname)
+        except jenkins.JenkinsException, e:
+            print e
