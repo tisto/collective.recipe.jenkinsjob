@@ -24,7 +24,7 @@ We'll start by creating a buildout that uses the recipe::
     >>> write('buildout.cfg',
     ... """
     ... [buildout]
-    ... parts = test1
+    ... parts = jenkins-job
     ...
     ... [jenkins-job]
     ... recipe = collective.recipe.jenkinsjob
@@ -41,5 +41,9 @@ We'll start by creating a buildout that uses the recipe::
 Running the buildout gives us::
 
 	>>> buildout_output_lower = system(buildout).lower()
-	>>> "updating jenkins-job" in buildout_output_lower
+	>>> "installing jenkins-job" in buildout_output_lower
 	True
+    >>> "generated script" in buildout_output_lower
+    True
+    >>> "sample-buildout/bin/jenkins-job" in buildout_output_lower
+    True
