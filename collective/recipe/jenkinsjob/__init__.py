@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Recipe Jenkinsjob"""
 import os
+from shutil import copyfile
 import jenkins
 
 import zc.recipe.egg
@@ -81,6 +82,17 @@ class Recipe(object):
             self.buildout['buildout']['bin-directory'],
             arguments=self.options.__repr__(),
         )
+        zc.buildout.easy_install.scripts(
+            [(
+                "jenkins-job-pull",
+                'collective.recipe.jenkinsjob',
+                'pull_jenkins_job'
+            )],
+            self.egg.working_set()[1],
+            self.buildout[self.buildout['buildout']['python']]['executable'],
+            self.buildout['buildout']['bin-directory'],
+            arguments=self.options.__repr__(),
+        )
 
     def render_jenkins_config(self):
         """Render the Jenkins job configuration.
@@ -122,18 +134,46 @@ def create_jenkins_job(options):
         jenkins_server.create_job(jenkins_jobname, jenkins_config)
 
 
-def build_jenkins_job(options):
-    # Connect to Jenkins CI server
-    jenkins_server = jenkins.Jenkins(
+def connect(options):
+    """Connect to a Jenkins CI server.
+    """
+    return jenkins.Jenkins(
         options['hostname'],
         options['username'],
         options['password'])
+
+
+def write_configuration(config, filename="jenkins.xml"):
+    # Backup existing config if it exists
+    if os.path.exists(filename):
+        print("Create Jenkins job backup at %s.sic" % filename)
+        copyfile(filename, "%s.sic" % filename)
+    # Write config to file
+    print("Write job %s" % filename)
+    fileObj = open(filename, "w")
+    fileObj.write(config)
+    fileObj.close()
+
+
+def build_jenkins_job(options):
+    """Build a job and push it to a Jenkins CI server.
+    """
+    jenkins_server = connect(options)
     jenkins_jobname = options['jobname']
     if jenkins_server.job_exists(jenkins_jobname):
         print(
-            "Build Job %s" %
+            "Build Jenkins job %s" %
             jenkins_server.get_job_info(jenkins_jobname)['url'])
         try:
             jenkins_server.build_job(jenkins_jobname)
         except jenkins.JenkinsException, e:
             print e
+
+
+def pull_jenkins_job(options):
+    """Pull a remote job from a Jenkins server.
+    """
+    jenkins_server = connect(options)
+    print("Pull Jenkins job %s" % options['jobname'])
+    job_config = jenkins_server.get_job_config(options['jobname'])
+    write_configuration(job_config)
