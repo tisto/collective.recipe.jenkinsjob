@@ -17,7 +17,7 @@ long_description = (
     'Detailed Documentation\n'
     '**********************\n'
     + '\n' +
-    read('collective', 'recipe', 'jenkinsjob', 'README.rst')
+    read('collective', 'recipe', 'jenkinsjob', 'README.txt')
     + '\n' +
     'Contributors\n'
     '************\n'
