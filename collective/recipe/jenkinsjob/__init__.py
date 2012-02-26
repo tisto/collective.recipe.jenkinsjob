@@ -2,8 +2,8 @@
 """Recipe Jenkinsjob"""
 import os
 from shutil import copyfile
-import jenkins
 
+import jenkins
 import zc.recipe.egg
 from zc.buildout import UserError
 
