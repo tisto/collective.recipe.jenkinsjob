@@ -11,9 +11,9 @@ import zc.buildout.testing
 
 from zope.testing import renormalizing
 
-optionflags =  (doctest.ELLIPSIS |
-                doctest.NORMALIZE_WHITESPACE |
-                doctest.REPORT_ONLY_FIRST_FAILURE)
+optionflags = (doctest.ELLIPSIS |
+               doctest.NORMALIZE_WHITESPACE |
+               doctest.REPORT_ONLY_FIRST_FAILURE)
 
 
 def setUp(test):
@@ -32,7 +32,7 @@ def setUp(test):
 def test_suite():
     suite = unittest.TestSuite((
             doctest.DocFileSuite(
-                '../README.txt',
+                '../../../../README.rst',
                 setUp=setUp,
                 tearDown=zc.buildout.testing.buildoutTearDown,
                 optionflags=optionflags,
