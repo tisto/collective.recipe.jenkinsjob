@@ -173,7 +173,7 @@ def push_jenkins_job(options):
         except jenkins.JenkinsException, e:
             print e
     else:
+        jenkins_server.create_job(jenkins_jobname, jenkins_config)
         print(
             "Create Job %s" %
             jenkins_server.get_job_info(jenkins_jobname)['url'])
-        jenkins_server.create_job(jenkins_jobname, jenkins_config)
