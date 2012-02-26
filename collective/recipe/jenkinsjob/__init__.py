@@ -20,7 +20,13 @@ class Recipe(object):
             options)
 
         # Check required options
-        required_options = ['hostname', 'jobname', 'username', 'password']
+        required_options = [
+            'hostname',
+            'jobname',
+            'username',
+            'password',
+            'jobconfig'
+        ]
         for required_option in required_options:
             if required_option not in self.options:
                 raise UserError(
@@ -30,8 +36,10 @@ class Recipe(object):
 
         # Set default options
         self.options.setdefault('port', '80')
-        self.options.setdefault('config_name', 'jenkins_config.xml')
-        self.options['config'] = os.path.join(self.buildout['buildout']['directory'], self.options['config_name'])
+        self.options.setdefault('jobconfig', 'jenkins_config.xml')
+        self.options['config'] = os.path.join(
+            self.buildout['buildout']['directory'],
+            self.options['jobconfig'])
 
         # Figure out default output file
         plone_jenkins = os.path.join(
