@@ -73,7 +73,7 @@ class Recipe(object):
         """
         zc.buildout.easy_install.scripts(
             [(
-                self.name,
+                self.name + '-push',
                 'collective.recipe.jenkinsjob',
                 'create_jenkins_job'
             )],
@@ -84,7 +84,7 @@ class Recipe(object):
         )
         zc.buildout.easy_install.scripts(
             [(
-                "jenkins-job-pull",
+                self.name + "-pull",
                 'collective.recipe.jenkinsjob',
                 'pull_jenkins_job'
             )],
@@ -95,7 +95,7 @@ class Recipe(object):
         )
         zc.buildout.easy_install.scripts(
             [(
-                "jenkins-job-build",
+                self.name + "-build",
                 'collective.recipe.jenkinsjob',
                 'build_jenkins_job'
             )],
