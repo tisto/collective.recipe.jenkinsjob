@@ -11,6 +11,8 @@ def read(*rnames):
 
 version = '1.0'
 
+description = "Buildout recipe to manage jobs on a remote Jenkins CI server."
+
 long_description = (
     read('README.rst')
     + '\n' +
@@ -45,7 +47,7 @@ tests_require = [
 
 setup(name='collective.recipe.jenkinsjob',
       version=version,
-      description="",
+      description=description,
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -55,8 +57,8 @@ setup(name='collective.recipe.jenkinsjob',
         'Topic :: Software Development :: Build Tools',
         ],
       keywords='',
-      author='',
-      author_email='',
+      author='Domen Kožar and Timo Stollenwerk',
+      author_email='domen@dev.si',
       url='https://github.com/tisto/collective.recipe.jenkinsjob',
       license='gpl',
       packages=find_packages(exclude=['ez_setup']),
