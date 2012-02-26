@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.0'
+version = '1.0-alpha1'
 
 description = "Buildout recipe to manage jobs on a remote Jenkins CI server."
 
@@ -53,7 +53,7 @@ setup(name='collective.recipe.jenkinsjob',
         'Framework :: Buildout',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
-        ],
+      ],
       keywords='',
       author='Domen Kožar and Timo Stollenwerk',
       author_email='domen@dev.si',
@@ -74,4 +74,4 @@ setup(name='collective.recipe.jenkinsjob',
       extras_require=dict(tests=tests_require),
       test_suite='collective.recipe.jenkinsjob.tests.test_docs.test_suite',
       entry_points=entry_points,
-      )
+)
