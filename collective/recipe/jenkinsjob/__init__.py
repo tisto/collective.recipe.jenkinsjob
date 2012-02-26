@@ -93,6 +93,17 @@ class Recipe(object):
             self.buildout['buildout']['bin-directory'],
             arguments=self.options.__repr__(),
         )
+        zc.buildout.easy_install.scripts(
+            [(
+                "jenkins-job-build",
+                'collective.recipe.jenkinsjob',
+                'build_jenkins_job'
+            )],
+            self.egg.working_set()[1],
+            self.buildout[self.buildout['buildout']['python']]['executable'],
+            self.buildout['buildout']['bin-directory'],
+            arguments=self.options.__repr__(),
+        )
 
     def render_jenkins_config(self):
         """Render the Jenkins job configuration.
