@@ -35,7 +35,7 @@ port (default: 80)
     Jenkins port
 
 config_name (default: jenkins_config.xml)
-    Name for XML configuration file for the Jenkins job
+    Name for XML configuration file for the Jenkins job, relative to buildout directory.
 
 
 Example usage
