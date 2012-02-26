@@ -25,6 +25,9 @@ hostname (required)
 jobname (required)
     Name of the Jenkins job.
 
+jobconfig (default: jenkins_config.xml)
+    Name for XML configuration file for the Jenkins job, relative to buildout directory.
+
 username (required)
     Jenkins username
 
@@ -33,9 +36,6 @@ password (required)
 
 port (default: 80)
     Jenkins port
-
-config_name (default: jenkins_config.xml)
-    Name for XML configuration file for the Jenkins job, relative to buildout directory.
 
 
 Example usage
@@ -52,24 +52,26 @@ We'll start by creating a buildout that uses the recipe::
     ... recipe = collective.recipe.jenkinsjob
     ... hostname = %(hostname)s
     ... jobname = %(jobname)s
+    ... jobconfig = %(jobconfig)s
     ... username = %(username)s
     ... password = %(password)s
     ... """ % {
     ...     'hostname' : 'jenkins.plone.org',
     ...     'jobname' : 'Plone42',
+    ...     'jobconfig': 'plone.xml',
     ...     'username': 'chuck',
     ...     'password': 'norris'})
 
 Running the buildout gives us::
 
-	>>> buildout_output_lower = system(buildout).lower()
-	>>> "installing jenkins-job" in buildout_output_lower
-	True
-	>>> "generated script" in buildout_output_lower
-	True
-	>>> "bin/jenkins-job-push" in buildout_output_lower
-	True
-	>>> "bin/jenkins-job-pull" in buildout_output_lower
-	True
-	>>> "bin/jenkins-job-trigger-build" in buildout_output_lower
-	True
+    >>> buildout_output_lower = system(buildout).lower()
+    >>> "installing jenkins-job" in buildout_output_lower
+    True
+    >>> "generated script" in buildout_output_lower
+    True
+    >>> "bin/jenkins-job-push" in buildout_output_lower
+    True
+    >>> "bin/jenkins-job-pull" in buildout_output_lower
+    True
+    >>> "bin/jenkins-job-trigger-build" in buildout_output_lower
+    True
