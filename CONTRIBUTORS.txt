@@ -3,3 +3,4 @@ Note:  place names and roles of the people who contribute to this package
 
 - Timo Stollenwerk
 - Domen Kožar
+- Daniel Widerin [saily]

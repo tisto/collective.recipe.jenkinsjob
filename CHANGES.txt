@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0-b1 - Unreleased
+-------------------
+
+- Include port in jenkins connect method.
+  [saily]
+
+
 1.0-alpha1 (2012/02/26)
 -------------------
 

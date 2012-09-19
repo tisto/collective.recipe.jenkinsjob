@@ -106,7 +106,7 @@ def _connect(options):
     """Connect to a Jenkins CI server.
     """
     return jenkins.Jenkins(
-        options['hostname'],
+        "%(hostname)s:%(port)s" % (options),
         options['username'],
         options['password'])
 
