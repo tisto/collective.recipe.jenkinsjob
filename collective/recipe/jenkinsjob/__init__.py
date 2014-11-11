@@ -156,7 +156,7 @@ def push_jenkins_job(options):
     jenkins_username = options['username']
     jenkins_password = options['password']
     jenkins_jobname = options['jobname']
-    jenkins_config = open(options['config']).read()
+    jenkins_config = open(options['config'], 'rb').read()
 
     # Connect to Jenkins CI server
     jenkins_server = jenkins.Jenkins(
