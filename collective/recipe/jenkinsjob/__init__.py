@@ -31,8 +31,8 @@ class Recipe(object):
             if required_option not in self.options:
                 raise UserError(
                     'Please provide a "%s" in your jenkins section "%s"' % (
-                    required_option,
-                    self.options['recipe']))
+                        required_option,
+                        self.options['recipe']))
 
         # Set default options
         self.options.setdefault('port', '80')
@@ -42,13 +42,14 @@ class Recipe(object):
             self.options['jobconfig'])
 
         # Figure out default output file
-        plone_jenkins = os.path.join(
+        jenkins_part = os.path.join(
             self.buildout['buildout']['parts-directory'], __name__)
-        if not os.path.exists(plone_jenkins):
-            os.makedirs(plone_jenkins)
+        if not os.path.exists(jenkins_part):
+            os.makedirs(jenkins_part)
 
         # What files are tracked by this recipe
-        self.files = [plone_jenkins,
+        self.files = [
+            jenkins_part,
             os.path.join(
                 self.buildout['buildout']['bin-directory'], self.name)]
 
@@ -134,8 +135,8 @@ def trigger_build_jenkins(options):
             jenkins_server.get_job_info(jenkins_jobname)['url'])
         try:
             jenkins_server.build_job(jenkins_jobname)
-        except jenkins.JenkinsException, e:
-            print e
+        except jenkins.JenkinsException as error:
+            print(error)
 
 
 def pull_jenkins_job(options):
@@ -155,7 +156,7 @@ def push_jenkins_job(options):
     jenkins_username = options['username']
     jenkins_password = options['password']
     jenkins_jobname = options['jobname']
-    jenkins_config = open(options['config']).read()
+    jenkins_config = open(options['config'], 'rb').read()
 
     # Connect to Jenkins CI server
     jenkins_server = jenkins.Jenkins(
@@ -170,8 +171,8 @@ def push_jenkins_job(options):
             jenkins_server.get_job_info(jenkins_jobname)['url'])
         try:
             jenkins_server.reconfig_job(jenkins_jobname, jenkins_config)
-        except jenkins.JenkinsException, e:
-            print e
+        except jenkins.JenkinsException as error:
+            print(error)
     else:
         jenkins_server.create_job(jenkins_jobname, jenkins_config)
         print(

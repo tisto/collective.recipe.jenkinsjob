@@ -23,10 +23,10 @@ def setUp(test):
     zc.buildout.testing.install_develop('collective.recipe.jenkinsjob', test)
 
     # Install any other recipes that should be available in the tests
-    #zc.buildout.testing.install('collective.recipe.foobar', test)
     zc.buildout.testing.install('python-jenkins', test)
     zc.buildout.testing.install('zc.recipe.egg', test)
     zc.buildout.testing.install('collective.recipe.template', test)
+    zc.buildout.testing.install('six', test)
 
 
 def test_suite():

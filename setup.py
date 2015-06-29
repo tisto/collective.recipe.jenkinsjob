@@ -7,7 +7,8 @@ from setuptools import setup, find_packages
 
 
 def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    with open(os.path.join(os.path.dirname(__file__), *rnames), 'rb') as text:
+        return text.read().decode('utf-8')
 
 version = '1.0-alpha1'
 
@@ -29,7 +30,7 @@ long_description = (
     + '\n' +
     read('CHANGES.txt')
     + '\n' +
-   'Download\n'
+    'Download\n'
     '********\n')
 
 entry_point = 'collective.recipe.jenkinsjob:Recipe'
@@ -38,9 +39,9 @@ entry_points = {
 }
 
 tests_require = [
-  'zope.testing',
-  'zc.buildout',
-  'mocker'
+    'zope.testing',
+    'zc.buildout [test]',
+    'mocker'
 ]
 
 setup(name='collective.recipe.jenkinsjob',
@@ -50,12 +51,12 @@ setup(name='collective.recipe.jenkinsjob',
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        'Framework :: Buildout',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
+          'Framework :: Buildout',
+          'Intended Audience :: Developers',
+          'Topic :: Software Development :: Build Tools',
       ],
       keywords='',
-      author='Domen Kožar and Timo Stollenwerk',
+      author='Domen Kozar and Timo Stollenwerk',
       author_email='domen@dev.si',
       url='https://github.com/tisto/collective.recipe.jenkinsjob',
       license='gpl',
@@ -64,11 +65,12 @@ setup(name='collective.recipe.jenkinsjob',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'setuptools',
-        'zc.buildout',
-        'python-jenkins',
-        'zc.recipe.egg',
-        'collective.recipe.template',
+          'setuptools',
+          'zc.buildout',
+          'python-jenkins <= 0.3.99 ,>= 0.3.4',
+          'zc.recipe.egg',
+          'six >= 1.8.0',       # Required by python-jenkins but not declared.
+          'collective.recipe.template',
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
